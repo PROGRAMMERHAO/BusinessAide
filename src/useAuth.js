@@ -5,6 +5,7 @@ import {
   GoogleAuthProvider,
   signOut,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import React, { useState, useEffect, useContext, createContext } from "react";
 
@@ -43,22 +44,26 @@ function useProvideAuth() {
 
   // Wrap any Firebase methods we want to use making sure ...
   // ... to save the user to state.
-  const signin = (email, password) => {
-    return firebaseAuth
-      .signInWithEmailAndPassword(email, password)
-      .then((response) => {
+  const signin = (e, email, password) => {
+    e.preventDefault();
+    const auth = getAuth();
+    return signInWithEmailAndPassword(auth, email, password).then(
+      (response) => {
         setUser(response.user);
         return response.user;
-      });
+      }
+    );
   };
 
-  const signup = (email, password) => {
-    return firebaseAuth
-      .createUserWithEmailAndPassword(email, password)
-      .then((response) => {
+  const signup = (e, email, password) => {
+    e.preventDefault();
+    const auth = getAuth();
+    return createUserWithEmailAndPassword(auth, email, password).then(
+      (response) => {
         setUser(response.user);
         return response.user;
-      });
+      }
+    );
   };
 
   const signout = () => {
@@ -95,6 +100,17 @@ function useProvideAuth() {
       });
   };
 
+  //const registeruser = createUserWithEmailAndPassword(auth, email, password)
+  //.then((userCredential) => {
+  // Signed in
+  //user = userCredential.user;
+  // ...
+  //})
+  //.catch((error) => {
+  // const errorCode = error.code;
+  //const errorMessage = error.message;
+  // ..
+  //});
   // Subscribe to user on mount
   // Because this sets state in the callback it will cause any ...
   // ... component that utilizes this hook to re-render with the ...

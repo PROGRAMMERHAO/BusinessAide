@@ -8,7 +8,7 @@ import RegisterForm from "./registerForm";
 
 class Form extends Component {
   state = {
-    data: {},
+    username: {},
     errors: {},
   };
 
@@ -33,10 +33,11 @@ class Form extends Component {
     e.preventDefault();
     const errors = this.validate();
     this.setState({ errors: errors || {} });
+    console.log(RegisterForm.state.data.username);
     debugger;
-    let username = RegisterForm.this.state.data.username.value;
-    let password = RegisterForm.this.state.data.password.value;
-    console.log("RegisterForm.state.data.username.value");
+    let username = RegisterForm.username.value;
+    let password = RegisterForm.password.value;
+    console.log("RegisterForm.state.data.username");
     First(username, password);
     if (errors) return;
   };
@@ -55,7 +56,11 @@ class Form extends Component {
 
   renderButton(label) {
     return (
-      <button disabled={this.validate()} className="btn btn-primary">
+      <button
+        disabled={this.validate()}
+        className="btn btn-primary"
+        onClick={First}
+      >
         {label}
       </button>
     );

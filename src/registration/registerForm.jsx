@@ -24,7 +24,7 @@ class RegisterForm extends Form {
     return (
       <div>
         <h1>Register</h1>
-        <form onSubmit={this.handleSubmit}>
+        <form>
           {this.renderInput("username", "Username")}
           {this.renderInput("password", "Password", "password")}
           {this.renderInput("name", "Name")}
