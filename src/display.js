@@ -11,10 +11,18 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  signOut,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 function Home() {
   const { signOutWithGoogle } = useAuth();
-
+  const auth = getAuth();
   return (
     <div>
       <Box sx={{ flexGrow: 1 }}>
@@ -40,7 +48,7 @@ function Home() {
           </Toolbar>
         </AppBar>
       </Box>
-      <h1>Welcome!</h1>
+      <h1>Welcome {auth.email}!</h1>
     </div>
   );
 }

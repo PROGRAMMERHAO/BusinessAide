@@ -7,6 +7,14 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import {
+  getFirestore,
+  query,
+  getDocs,
+  collection,
+  where,
+  addDoc,
+} from "firebase/firestore";
 import React, { useState, useEffect, useContext, createContext } from "react";
 
 import { config as firebaseConfig } from "./config";
@@ -24,7 +32,7 @@ const firebaseAuth = getAuth(app);
 const googleAuthProvider = new GoogleAuthProvider();
 
 const authContext = createContext();
-
+const db = getFirestore(app);
 // Provider component that wraps your app and makes auth object ...
 // ... available to any child component that calls useAuth().
 export function ProvideAuth({ children }) {
@@ -54,7 +62,26 @@ function useProvideAuth() {
       }
     );
   };
-
+  const registerWithEmailAndPassword = async (fullname, username, password) => {
+    try {
+      const auth = getAuth(app);
+      const res = await createUserWithEmailAndPassword(
+        auth,
+        username,
+        password
+      );
+      const user = res.user;
+      await addDoc(collection(db, "users"), {
+        uid: user.uid,
+        fullname,
+        authProvider: "local",
+        username,
+      });
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
+    }
+  };
   const signup = (e, email, password) => {
     e.preventDefault();
     const auth = getAuth();
@@ -84,8 +111,25 @@ function useProvideAuth() {
     });
   };
 
-  const signInWithGoogle = () => {
-    return signInWithPopup(firebaseAuth, googleAuthProvider);
+  const signInWithGoogle = async () => {
+    const googleProvider = new GoogleAuthProvider();
+    try {
+      const res = await signInWithPopup(auth, googleProvider);
+      const user = res.user;
+      const q = query(collection(db, "users"), where("uid", "==", user.uid));
+      const docs = await getDocs(q);
+      if (docs.docs.length === 0) {
+        await addDoc(collection(db, "users"), {
+          uid: user.uid,
+          name: user.displayName,
+          authProvider: "google",
+          email: user.email,
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
+    }
   };
 
   const auth = getAuth();
@@ -138,5 +182,6 @@ function useProvideAuth() {
     sendPasswordResetEmail,
     confirmPasswordReset,
     signInWithGoogle,
+    registerWithEmailAndPassword,
   };
 }

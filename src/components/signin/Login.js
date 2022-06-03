@@ -71,6 +71,15 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
+              name="fullname"
+              label="fullname"
+              id="fullname"
+              autoComplete="fullname"
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
               id="email"
               label="Email Address"
               name="email"
@@ -85,6 +94,17 @@ export default function SignIn() {
               label="Password"
               type="password"
               id="password"
+              autoComplete="current-password"
+            />
+
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="retypepassword"
+              label="retypePassword"
+              type="password"
+              id="retypepassword"
               autoComplete="current-password"
             />
             <FormControlLabel

@@ -13,7 +13,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link, Route, Routes, BrowserRouter } from "react-router-dom";
+
+//import { useAuthState } from "react-firebase-hooks/auth";
 import {
   getAuth,
   signInWithPopup,
@@ -48,11 +49,20 @@ const Styles = styled.div`
     height: 50px;
   }
 `;
+
 const theme = createTheme();
 const Submit = () => {
-  const { signup } = useAuth();
+  const { registerWithEmailAndPassword } = useAuth();
+  const { signInWithGoogle } = useAuth();
+  const [fullname, setFullname] = useState("");
   const [username, setName] = useState("");
   const [password, setPassword] = useState(null);
+  const [retypepassword, setRetypepassword] = useState(null);
+  const register = (e) => {
+    e.preventDefault();
+    if (!username) alert("Please enter name");
+    registerWithEmailAndPassword(fullname, username, password);
+  };
   const schema = {
     username: Joi.string().required().email().label("Username"),
     password: Joi.string().required().min(5).label("Password"),
@@ -85,19 +95,25 @@ const Submit = () => {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box
-            component="form"
-            onSubmit={(e) => signup(e, username, password)}
-            noValidate
-            sx={{ mt: 1 }}
-          >
+          <Box component="form" onSubmit={register} noValidate sx={{ mt: 1 }}>
+            <TextField
+              value={fullname}
+              margin="normal"
+              required
+              fullWidth
+              name="fullname"
+              label="Fullname"
+              id="fullname"
+              autoComplete="fullname"
+              onChange={(e) => setFullname(e.target.value)}
+            />
             <TextField
               value={username}
               margin="normal"
               required
               fullWidth
               id="email"
-              label="username"
+              label="Email"
               name="email"
               autoComplete="email"
               autoFocus
@@ -115,7 +131,18 @@ const Submit = () => {
               autoComplete="current-password"
               onChange={(e) => setPassword(e.target.value)}
             />
-
+            <TextField
+              value={retypepassword}
+              margin="normal"
+              required
+              fullWidth
+              name="retypepassword"
+              label="Re-enter Password"
+              type="password"
+              id="retypepassword"
+              autoComplete="current-password"
+              onChange={(e) => setRetypepassword(e.target.value)}
+            />
             <Button
               type="submit"
               fullWidth
@@ -123,6 +150,14 @@ const Submit = () => {
               sx={{ mt: 3, mb: 2 }}
             >
               Sign Up
+            </Button>
+            <Button
+              onClick={signInWithGoogle}
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In With Google
             </Button>
             <Grid container>
               <Grid item xs></Grid>
