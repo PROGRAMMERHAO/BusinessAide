@@ -10,19 +10,19 @@ import {
   doc,
 } from "firebase/firestore";
 
-const employeeCollectionRef = collection(db, "Employees");
+const employeeCollectionRef = collection(db, "employees");
 class EmployeeDataService {
   addEmployee = (newEmployee) => {
     return addDoc(employeeCollectionRef, newEmployee);
   };
 
   updatedEmployee = (id, updatedEmployee) => {
-    const bookDoc = doc(db, "Employees", id);
+    const bookDoc = doc(db, "employees", id);
     return updateDoc(bookDoc, updatedEmployee);
   };
 
   deleteEmployee = (id) => {
-    const employeeDoc = doc(db, "Employees", id);
+    const employeeDoc = doc(db, "employees", id);
     return deleteDoc(employeeDoc);
   };
 
@@ -31,7 +31,7 @@ class EmployeeDataService {
   };
 
   getEmployee = (id) => {
-    const EmployeeDoc = doc(db, "Employees", id);
+    const EmployeeDoc = doc(db, "employees", id);
     return getDoc(EmployeeDoc);
   };
 }

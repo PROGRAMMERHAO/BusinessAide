@@ -11,6 +11,8 @@ import Stack from "@mui/material/Stack";
 import Icon from "@mui/material/Icon";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import { Link } from "react-router-dom";
+import CreateTask from "./createtask";
+import CreateSubtask from "./createsubtask";
 
 const bull = (
   <Box
@@ -39,9 +41,8 @@ const card = (
             >
               Add New Task Here
             </Typography>
-
             <Typography variant="body2">
-              <Button variant="contained">Add Task</Button>
+              <CreateTask></CreateTask>
             </Typography>
           </CardContent>
         </Card>
@@ -70,6 +71,7 @@ const card = (
             >
               View Task
             </Link>
+            <CreateSubtask></CreateSubtask>
           </CardActions>
         </Card>
       </Grid>
@@ -98,6 +100,7 @@ const card = (
             >
               View Task
             </Link>
+            <CreateSubtask></CreateSubtask>
           </CardActions>
         </Card>
       </Grid>

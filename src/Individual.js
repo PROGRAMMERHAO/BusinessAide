@@ -31,7 +31,7 @@ export default function Individual() {
   const getEmployees = async (id) => {
     const data = await EmployeeDataService.getEmployee(id);
     console.log(
-      data._document.data.value.mapValue.fields.Firstname.stringValue
+      data._document.data.value.mapValue.fields.firstName.stringValue
     );
     setEmployees(data);
   };
@@ -58,28 +58,40 @@ export default function Individual() {
             height={200}
             width={200}
           />
-        </div>
-        <AccountCircleIcon></AccountCircleIcon>
-        Name:{" "}
-        {
-          employees._document.data.value.mapValue.fields.Firstname.stringValue
-        }{" "}
-        {employees._document.data.value.mapValue.fields.Lastname.stringValue}
-        <div>
-          <AddIcCallIcon></AddIcCallIcon>
-          Phone number:
-        </div>
-        <div>
-          <AddLocationIcon></AddLocationIcon>
-          Location:
+          <h1>
+            {
+              employees._document.data.value.mapValue.fields.firstName
+                .stringValue
+            }{" "}
+            {
+              employees._document.data.value.mapValue.fields.lastName
+                .stringValue
+            }
+          </h1>
         </div>
         <div>
-          <CakeIcon></CakeIcon>
-          Date of Birth:
-        </div>
-        <div>
-          <WorkIcon></WorkIcon>
-          Years of Working:
+          <h3>
+            <AddIcCallIcon></AddIcCallIcon> Phone number:{" "}
+            {
+              employees._document.data.value.mapValue.fields.phoneNum
+                .stringValue
+            }
+          </h3>
+          <h3>
+            <AddLocationIcon></AddLocationIcon> Location:{" "}
+            {
+              employees._document.data.value.mapValue.fields.location
+                .stringValue
+            }
+          </h3>
+          <h3>
+            <CakeIcon></CakeIcon> Date of Birth:{" "}
+            {employees._document.data.value.mapValue.fields.dob.stringValue}
+          </h3>
+          <h3>
+            <WorkIcon></WorkIcon> Work Experience:{" "}
+            {employees._document.data.value.mapValue.fields.workExp.stringValue}
+          </h3>
         </div>
       </div>
     );

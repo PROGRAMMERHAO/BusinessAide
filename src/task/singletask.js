@@ -10,14 +10,20 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import ProgressBar from "./progressbar";
+import PropTypes from "prop-types";
+import { styled } from "@mui/material/styles";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
 
 const bull = (
   <Box
     component="span"
     sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-  >
-    •
-  </Box>
+  ></Box>
 );
 
 export default function BasicCard() {
@@ -25,10 +31,16 @@ export default function BasicCard() {
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Task Description
+          Task Name
         </Typography>
         <Typography variant="h5" component="div">
           Send Fax
+        </Typography>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          Task Description
+        </Typography>
+        <Typography variant="h5" component="div">
+          Send fax to BMW by 12th July
         </Typography>
         <ProgressBar bgcolor={"#1976d2"} completed={60} />
         <div>
@@ -60,7 +72,7 @@ export default function BasicCard() {
               <Typography>
                 <div>Task Description: </div>
                 <div>workers allocated: Adam, Blake</div>
-                <div>progress:</div>
+                <div>progress: </div>
               </Typography>
             </AccordionDetails>
           </Accordion>

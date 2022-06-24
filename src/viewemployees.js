@@ -68,6 +68,7 @@ const EmployeesList = ({ getEmployeeId }) => {
         columnSpacing={{ xs: 2, sm: 2, md: 3 }}
       >
         {employees.map((doc, index) => {
+          console.log(doc);
           return (
             <Grid item xs={3} key={doc.id}>
               <Link
@@ -79,9 +80,9 @@ const EmployeesList = ({ getEmployeeId }) => {
                   key={doc.id}
                   id={doc.id}
                   index={index + 1}
-                  Firstname={doc.Firstname}
-                  Lastname={doc.Lastname}
-                  TeamLeader={doc.TeamLeader}
+                  Firstname={doc.firstName}
+                  Lastname={doc.lastName}
+                  employer={doc.employer}
                 />
               </Link>
             </Grid>
