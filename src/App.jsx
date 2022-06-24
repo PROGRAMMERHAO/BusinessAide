@@ -1,14 +1,10 @@
 import "./App.css";
-import PageLogin from "./LoginForm";
 import { useAuth } from "./useAuth";
-import { useState, useEffect } from "react";
 import Home from "./display";
-import RegisterForm from "./registration/registerForm";
-import CreateForm from "./submit";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import NavBar from "./NavBar";
-import SignIn from "./components/signin/Login";
 import ButtonAppBar from "./NavBar";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { login, logout, selectUser } from "./redux/employee.feature";
 
 //import HomePage from "./components/signin/mainpage";
 

@@ -5,11 +5,18 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ProvideAuth } from "./useAuth";
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./redux/store";
+import { getFirestore } from "redux-firestore";
+import { getFirebase } from "react-redux-firebase";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <ProvideAuth>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </ProvideAuth>
   </BrowserRouter>
 );

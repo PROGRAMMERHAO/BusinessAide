@@ -10,6 +10,7 @@ import { Grid } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import Icon from "@mui/material/Icon";
 import AddTaskIcon from "@mui/icons-material/AddTask";
+import { Link } from "react-router-dom";
 
 const bull = (
   <Box
@@ -63,7 +64,12 @@ const card = (
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small">View Task</Button>
+            <Link
+              to="/task/singletask"
+              style={{ textDecoration: "none", color: "blue" }}
+            >
+              View Task
+            </Link>
           </CardActions>
         </Card>
       </Grid>
@@ -86,7 +92,12 @@ const card = (
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small">View Task</Button>
+            <Link
+              to="/task/singletask"
+              style={{ textDecoration: "none", color: "blue" }}
+            >
+              View Task
+            </Link>
           </CardActions>
         </Card>
       </Grid>
@@ -95,5 +106,20 @@ const card = (
 );
 
 export default function OutlinedCard() {
-  return <Box sx={{ minWidth: 275 }}>{card}</Box>;
+  const [firstName, setfirstName] = React.useState(null);
+  const [lastName, setlastName] = React.useState(null);
+  React.useEffect(() => {
+    fetch("/api")
+      .then((res) => res.json())
+      .then((data) => {
+        setfirstName(data.firstName);
+        setlastName(data.lastName);
+      });
+  }, []);
+  return (
+    <div>
+      <h1>Task Page</h1>
+      <Box sx={{ minWidth: 275 }}>{card}</Box>
+    </div>
+  );
 }

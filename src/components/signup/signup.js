@@ -13,6 +13,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/employee.feature";
 
 //import { useAuthState } from "react-firebase-hooks/auth";
 import {
@@ -21,6 +23,7 @@ import {
   GoogleAuthProvider,
   signOut,
   createUserWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import Joi from "joi-browser";
 import styled from "styled-components";
@@ -58,12 +61,43 @@ const Submit = () => {
   const [username, setName] = useState("");
   const [password, setPassword] = useState(null);
   const [retypepassword, setRetypepassword] = useState(null);
-  const register = (e) => {
-    e.preventDefault();
-    if (!username) alert("Please enter name");
-    registerWithEmailAndPassword(fullname, username, password);
+  const dispatch = useDispatch();
+  // const register = (e) => {
+  // e.preventDefault();
+  //if (!username) alert("Please enter name");
+  //registerWithEmailAndPassword(fullname, username, password);
+  //};
+  const register = () => {
+    if (!username) {
+      return alert("Please enter a full name");
+    }
+
+    // Create a new user with Firebase
+    registerWithEmailAndPassword(fullname, username, password)
+      .then((userAuth) => {
+        // Update the newly created user with a display name and a picture
+        updateProfile(userAuth.user, {
+          displayName: fullname,
+        })
+          .then(
+            // Dispatch the user information for persistence in the redux state
+            dispatch(
+              login({
+                email: userAuth.user.email,
+                uid: userAuth.user.uid,
+                displayName: fullname,
+              })
+            )
+          )
+          .catch((error) => {
+            console.log("user not updated");
+          });
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
-  const schema = {
+  /* const schema = {
     username: Joi.string().required().email().label("Username"),
     password: Joi.string().required().min(5).label("Password"),
     name: Joi.string().required().label("Name"),
@@ -76,7 +110,7 @@ const Submit = () => {
     const data = { ...this.state.data };
     data[input.name] = input.value;
     this.setState({ data, errors });
-  };
+  }; */
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
