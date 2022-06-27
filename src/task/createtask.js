@@ -21,7 +21,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
-
+import handleSubmit from "./handlesubmit";
+import { Card } from "@mui/material";
+import { CardContent } from "@mui/material";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
@@ -65,7 +67,7 @@ export default function CreateTask() {
   const [task, setTask] = useState();
   const [people, setPeople] = useState();
   const [description, setDescription] = useState();
-  const [employer, setEmployer] = useState();
+  const [employer, setEmployer] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -76,81 +78,92 @@ export default function CreateTask() {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        New Task
-      </Button>
-      <BootstrapDialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-      >
-        <BootstrapDialogTitle
-          id="customized-dialog-title"
-          onClose={handleClose}
-        >
-          Create New Task
-        </BootstrapDialogTitle>
-        <DialogContent dividers>
-          <Box component="form" onSubmit noValidate sx={{ mt: 1 }}>
-            <TextField
-              value={task}
-              margin="normal"
-              required
-              fullWidth
-              id="task"
-              label="Task Name"
-              name="task"
-              autoComplete="task"
-              autoFocus
-              onChange={(e) => setTask(e.target.value)}
-            />
-            <TextField
-              value={description}
-              margin="normal"
-              required
-              fullWidth
-              id="description"
-              label="Task Description"
-              name="description"
-              autoComplete="description"
-              autoFocus
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <TextField
-              value={employer}
-              margin="normal"
-              required
-              fullWidth
-              id="employer"
-              label="Employer's Name"
-              name="employer"
-              autoComplete="employer"
-              autoFocus
-              onChange={(e) => setEmployer(e.target.value)}
-            />
-            <TextField
-              value={people}
-              margin="normal"
-              required
-              fullWidth
-              name="people"
-              label="People Assigned"
-              id="people"
-              onChange={(e) => setPeople(e.target.value)}
-            />
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            autoFocus
-            onClick={() => {
-              handleClose();
-            }}
-          >
-            Create Task
-          </Button>
-        </DialogActions>
-      </BootstrapDialog>
+      <Card>
+        <CardContent>
+          <Typography sx={{ fontSize: 20 }} color="text.secondary" gutterBottom>
+            Add New Task
+          </Typography>
+          <Typography variant="body2">
+            <Button variant="outlined" onClick={handleClickOpen}>
+              New Task
+            </Button>
+            <BootstrapDialog
+              onClose={handleClose}
+              aria-labelledby="customized-dialog-title"
+              open={open}
+            >
+              <BootstrapDialogTitle
+                id="customized-dialog-title"
+                onClose={handleClose}
+              >
+                Create a New Task
+              </BootstrapDialogTitle>
+              <DialogContent dividers>
+                <Box component="form" onSubmit noValidate sx={{ mt: 1 }}>
+                  <TextField
+                    value={task}
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="task"
+                    label="Task Name"
+                    name="task"
+                    autoComplete="task"
+                    autoFocus
+                    onChange={(e) => setTask(e.target.value)}
+                  />
+                  <TextField
+                    value={description}
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="description"
+                    label="Task Description"
+                    name="description"
+                    autoComplete="description"
+                    autoFocus
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                  <TextField
+                    value={employer}
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="employer"
+                    label="Employer's Name"
+                    name="employer"
+                    autoComplete="employer"
+                    autoFocus
+                    onChange={(e) => setEmployer(e.target.value)}
+                  />
+                  <TextField
+                    value={people}
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="people"
+                    label="People Assigned"
+                    id="people"
+                    onChange={(e) => setPeople(e.target.value)}
+                  />
+                </Box>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  autoFocus
+                  onClick={() => {
+                    console.log(task);
+                    handleSubmit(task, description, employer, people);
+                    handleClose();
+                  }}
+                >
+                  Create Task
+                </Button>
+              </DialogActions>
+            </BootstrapDialog>
+          </Typography>
+        </CardContent>
+      </Card>
     </div>
   );
 }

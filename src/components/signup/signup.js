@@ -67,7 +67,8 @@ const Submit = () => {
   //if (!username) alert("Please enter name");
   //registerWithEmailAndPassword(fullname, username, password);
   //};
-  const register = () => {
+  const register = (e) => {
+    e.preventDefault();
     if (!username) {
       return alert("Please enter a full name");
     }

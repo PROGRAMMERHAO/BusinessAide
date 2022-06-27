@@ -41,7 +41,6 @@ const EmployeesList = ({ getEmployeeId }) => {
 
   const getEmployees = async () => {
     const data = await EmployeeDataService.getALLEmployee();
-
     console.log(data.docs);
     setEmployees(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };

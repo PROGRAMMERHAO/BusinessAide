@@ -13,116 +13,98 @@ import AddTaskIcon from "@mui/icons-material/AddTask";
 import { Link } from "react-router-dom";
 import CreateTask from "./createtask";
 import CreateSubtask from "./createsubtask";
+import TaskDataService from "./taskserver";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const bull = (
   <Box
     component="span"
     sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-  >
-    •
-  </Box>
-);
-
-const card = (
-  <React.Fragment>
-    <Grid
-      container
-      rowSpacing={1}
-      columns={12}
-      columnSpacing={{ xs: 2, sm: 2, md: 3 }}
-    >
-      <Grid item xs={3}>
-        <Card>
-          <CardContent>
-            <Typography
-              sx={{ fontSize: 20 }}
-              color="text.secondary"
-              gutterBottom
-            >
-              Add New Task Here
-            </Typography>
-            <Typography variant="body2">
-              <CreateTask></CreateTask>
-            </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item xs={3}>
-        <Card>
-          <CardContent>
-            <Typography
-              sx={{ fontSize: 20 }}
-              color="text.secondary"
-              gutterBottom
-            >
-              Current Task
-            </Typography>
-            <Typography variant="h5" component="div">
-              Send Fax
-            </Typography>
-            <Typography variant="body2">
-              <ProgressBar bgcolor={"#6a1b9a"} completed={60} />
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Link
-              to="/task/singletask"
-              style={{ textDecoration: "none", color: "blue" }}
-            >
-              View Task
-            </Link>
-            <CreateSubtask></CreateSubtask>
-          </CardActions>
-        </Card>
-      </Grid>
-
-      <Grid item xs={3}>
-        <Card>
-          <CardContent>
-            <Typography
-              sx={{ fontSize: 20 }}
-              color="text.secondary"
-              gutterBottom
-            >
-              Current Task
-            </Typography>
-            <Typography variant="h5" component="div">
-              Send Fax
-            </Typography>
-            <Typography variant="body2">
-              <ProgressBar bgcolor={"#6a1b9a"} completed={60} />
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Link
-              to="/task/singletask"
-              style={{ textDecoration: "none", color: "blue" }}
-            >
-              View Task
-            </Link>
-            <CreateSubtask></CreateSubtask>
-          </CardActions>
-        </Card>
-      </Grid>
-    </Grid>
-  </React.Fragment>
+  ></Box>
 );
 
 export default function OutlinedCard() {
-  const [firstName, setfirstName] = React.useState(null);
-  const [lastName, setlastName] = React.useState(null);
-  React.useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => {
-        setfirstName(data.firstName);
-        setlastName(data.lastName);
-      });
+  const [tasks, setTasks] = useState([]);
+  const [progress, setProgress] = useState([]);
+  useEffect(() => {
+    const displayTask = async (employerName) => {
+      let call = "/displayTask/?";
+      call = call + "employerName=" + employerName;
+      let result = await (await fetch(call)).json();
+      console.log(result);
+      for (let i = 0; i < result.length; i++) {
+        setTasks((tasks) => [...tasks, result[i]]);
+      }
+      console.log(tasks);
+    };
+
+    displayTask("adam jerry");
   }, []);
+  useEffect(() => {
+    const mainTaskProgress = async (mainTaskName, employerName) => {
+      let call = "/mainTaskProgress/?";
+      call = call + "mainTaskName=" + mainTaskName + "&";
+      call = call + "employerName=" + employerName;
+      let result = await (await fetch(call)).json();
+      console.log(result);
+
+      setProgress((progress) => [...progress, result]);
+    };
+    for (let i = 0; i < tasks.length; i++) {
+      mainTaskProgress(tasks[i], "adam jerry");
+      console.log(progress);
+    }
+  }, []);
+  //useEffect(() => {
+  //console.log(progress);
+  //}, [progress]);
+
   return (
     <div>
       <h1>Task Page</h1>
-      <Box sx={{ minWidth: 275 }}>{card}</Box>
+
+      <Grid
+        container
+        rowSpacing={20}
+        columns={12}
+        columnSpacing={{ xs: 2, sm: 2, md: 3 }}
+      >
+        {tasks.map((doc) => {
+          return (
+            <Grid item xs={3}>
+              <Card sx={{ maxWidth: 345 }}>
+                <CardContent>
+                  <Typography
+                    sx={{ fontSize: 20 }}
+                    color="text.secondary"
+                    gutterBottom
+                  >
+                    Current Task
+                  </Typography>
+                  <Typography variant="h5" component="div">
+                    {progress}
+                  </Typography>
+                  <Typography variant="body2">
+                    <ProgressBar bgcolor={"#6a1b9a"} completed={60} />
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Link
+                    to="/task/singletask"
+                    state={doc}
+                    style={{ textDecoration: "none", color: "blue" }}
+                  >
+                    View Task
+                  </Link>
+                  <span style={{ color: "white" }}>hahahaha</span>
+                  <CreateSubtask maintask={doc}></CreateSubtask>
+                </CardActions>
+              </Card>
+            </Grid>
+          );
+        })}
+      </Grid>
     </div>
   );
 }

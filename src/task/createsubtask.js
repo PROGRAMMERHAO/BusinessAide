@@ -21,6 +21,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
+import subtaskSubmit from "./subtasksubmit";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -60,14 +61,14 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function CreateSubtask() {
+export default function CreateSubtask(props) {
   const [open, setOpen] = React.useState(false);
   const [task, setTask] = useState();
-  const [people, setPeople] = useState();
+  const [people, setPeople] = useState([]);
   const [description, setDescription] = useState();
   const [employer, setEmployer] = useState();
   const [goal, setGoal] = useState();
-
+  const maintask = props.maintask;
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -77,7 +78,7 @@ export default function CreateSubtask() {
 
   return (
     <div>
-      <span style={{ color: "white" }}> hahah </span>
+      <span style={{ color: "white" }}> hahahahahahaa </span>
       <Button variant="outlined" onClick={handleClickOpen}>
         New Subtask
       </Button>
@@ -156,6 +157,14 @@ export default function CreateSubtask() {
           <Button
             autoFocus
             onClick={() => {
+              subtaskSubmit(
+                task,
+                description,
+                goal,
+                maintask,
+                employer,
+                people
+              );
               handleClose();
             }}
           >

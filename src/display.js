@@ -18,6 +18,7 @@ import Individual from "./Individual";
 import EmployeeDataService from "./employeeserver";
 import OutlinedCard from "./task/displaytask";
 import BasicCard from "./task/singletask";
+import CreateTask from "./task/createtask";
 import {
   getAuth,
   signInWithPopup,
@@ -69,7 +70,15 @@ function Home() {
                 style={{ textDecoration: "none", color: "white" }}
                 to="/task/displaytask"
               >
-                Tasks
+                View Tasks
+              </Link>
+            </Button>
+            <Button>
+              <Link
+                style={{ textDecoration: "none", color: "white" }}
+                to="/task/createtask"
+              >
+                Add Tasks
               </Link>
             </Button>
             <Button onClick={signOutWithGoogle} color="inherit">
@@ -87,6 +96,7 @@ function Home() {
         <Route path="/Individual/:id" element={<Individual />} />
         <Route path="/task/displaytask" element={<OutlinedCard />} />
         <Route path="/task/singletask" element={<BasicCard />} />
+        <Route path="/task/createtask" element={<CreateTask />} />
       </Routes>
     </div>
   );
